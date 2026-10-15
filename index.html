@@ -128,6 +128,7 @@ button{font-family:inherit;cursor:pointer;border:none;touch-action:manipulation;
 .wedit{position:fixed;inset:0;background:rgba(10,30,80,.6);display:flex;align-items:center;justify-content:center;z-index:40}
 .webox{background:#fff;border-radius:30px;padding:30px 36px;width:min(900px,92vw);display:flex;flex-direction:column;gap:14px}
 .webox h3{font-size:40px}.webox p{font-size:22px;font-weight:700;opacity:.7}
+.webox .wtitle{width:100%;font:800 30px 'Nunito',sans-serif;border:4px solid #bcd;border-radius:18px;padding:10px 14px;margin-bottom:8px;user-select:text;-webkit-user-select:text}
 .webox textarea{width:100%;height:260px;font:800 32px 'Nunito',sans-serif;border:4px solid #bcd;border-radius:18px;padding:14px;user-select:text;-webkit-user-select:text}
 .webox .tbtn.ok{background:var(--green);color:#fff}
 .slot.filled.got{color:var(--green)}
@@ -387,6 +388,25 @@ const READ_WORDS=['ана','ата','апа','аға','әке','ол','сол','
 const SENTENCES=['Ол – қала.','Бұл – үй.','Мысық сүт ішті.','Күн жылы.','Дала кең.','Қар жауды.','Бала доп ойнады.','Апам нан пісірді.','Айгүл кітап оқыды.','Алма қызыл.','Құс ұшты.','Ит үреді.','Көлде балық бар.','Ағаш биік.','Асан – оқушы.','Біз мектепке барамыз.','Атам бақта жүр.','Қоян сәбіз жеді.'];
 const OBJ=['🍎','⭐','🐟','🎈','🌸','🐞','🍓','⚽','🚗','🐥'];
 const N_TASKS=8;
+const TEXTS1=[
+{t:'Менің отбасым',b:'Менің атым Әли. Менің әкем, анам және апам бар. Әкем жұмысқа барады. Анам дәмді тамақ пісіреді. Апам маған ертегі айтады. Мен отбасымды жақсы көремін.'},
+{t:'Ақтөс',b:'Бізде кішкентай күшік бар. Оның аты – Ақтөс. Ақтөс доппен ойнайды. Ол үйді күзетеді. Мен оған сүт беремін. Ақтөс маған құйрығын бұлғайды.'},
+{t:'Мектеп',b:'Мен мектепке барамын. Біздің сынып үлкен әрі жарық. Мұғалім бізге әріп үйретеді. Біз кітап оқимыз, сурет саламыз. Үзілісте достарыммен ойнаймын. Мектеп маған ұнайды.'},
+{t:'Көктем',b:'Көктем келді. Күн жылынды. Қар еріді. Ағаштар бүршік жарды. Құстар ұшып келді. Балалар далада ойнайды. Бәрі көктемге қуанады.'},
+{t:'Алма ағашы',b:'Атамның бағында алма ағашы бар. Күзде алма піседі. Алмалар қызыл әрі тәтті. Мен атама алма теруге көмектесемін. Анам алмадан тосап жасайды.'},
+{t:'Жаз',b:'Жаз шықты. Күн ыстық. Біз ауылға бардық. Ауылда өзен бар. Мен өзенде шомыламын. Атам маған балық аулауды үйретті. Жаз көңілді өтті.'},
+{t:'Қоян',b:'Орманда ақ қоян тұрады. Оның құлағы ұзын. Қоян сәбіз бен қырыққабат жейді. Ол өте жылдам жүгіреді. Қыста қоянның жүні аппақ болады.'},
+{t:'Досым',b:'Менің досым – Арман. Біз бір сыныпта оқимыз. Арман маған қаламын берді. Мен оған кітабымды бердім. Біз бірге доп ойнаймыз. Дос болу – жақсы.'},
+{t:'Нан',b:'Нан – ең қымбат ас. Нанды диқан өсіреді. Наубайшы нанды пісіреді. Анам дүкеннен нан алады. Біз нанды тастамаймыз. Нанды құрметтейміз.'},
+{t:'Күз',b:'Күз келді. Жапырақтар сарғайды. Ауа салқындады. Жаңбыр жиі жауады. Құстар жылы жаққа ұшты. Біз жылы киім киеміз. Күзде мектеп басталады.'}];
+function myText(){try{return JSON.parse(localStorage.getItem('nu_mytext')||'null')}catch(e){return null}}
+function editText(after){const m=myText()||{t:'',b:''};
+  const ov=el('div','wedit',`<div class="webox"><h3>✏️ Менің мәтінім</h3><p>Тақырыбы:</p><input class="wtitle" spellcheck="false" placeholder="Мысалы: Қыс"><p>Мәтін:</p>
+  <textarea spellcheck="false" placeholder="Мәтінді осында жазыңыз немесе қойыңыз"></textarea><div class="row"><button class="tbtn ok">💾 Сақтау</button><button class="tbtn no">✖ Болдырмау</button></div></div>`);
+  document.body.append(ov);const ti=ov.querySelector('input'),ta=ov.querySelector('textarea');ti.value=m.t;ta.value=m.b;setTimeout(()=>ta.focus(),50);
+  ov.querySelector('.no').onclick=()=>ov.remove();
+  ov.querySelector('.ok').onclick=()=>{const b=ta.value.trim().replace(/\s+/g,' ');if(!b){ta.focus();return}
+    try{localStorage.setItem('nu_mytext',JSON.stringify({t:ti.value.trim()||'Менің мәтінім',b}))}catch(e){alert('Сақтау мүмкін болмады');return}ov.remove();after&&after()}}
 const TEXTS=[
 {t:'Қыс',b:'Қыс келді. Далаға ақ қар жауды. Балалар шана алып, тауға шықты. Асан мен Айгүл шанамен сырғанады. Олар қардан аққала жасады. Аққаланың мұрны – сәбіз, көзі – көмір. Балалар қатты қуанды. Кешке олар үйге қайтты. Анасы оларға ыстық шай берді.'},
 {t:'Мысық',b:'Біздің үйде мысық бар. Оның аты – Мими. Мимидің жүні ақ, көзі көк. Ол сүт ішкенді жақсы көреді. Мими доппен ойнайды. Түнде ол тышқан аулайды. Мен мысығымды жақсы көремін. Оны күнде тамақтандырамын.'},
@@ -596,6 +616,28 @@ sortGame({ id:'hardsoft', grade:2, title:'Жуан ба, жіңішке ме?', 
       const put=()=>{if(L!==t.L)return wrong(b);hole.textContent=L;hole.className='slot filled got';popIn(hole);b.classList.add('used');done()};
       dragTile(b,put,put);tiles.append(b)});
     st.append(tiles,el('div','howto','👆 Ұстап, орнына апар немесе басып таңда'));
+  }},
+{ id:'minute1', grade:1, title:'1 минутта оқы: мәтін', icon:'⏱️', bg:'#fff9c4', sub:'10 мәтін + өз мәтініңді қос', noProgress:true,
+  make:()=>[0],
+  render(_,st,done,alive){
+    st.append(el('div','task-title','Мәтінді таңда да, 1 минут ішінде оқып шық!'));
+    let cur=0;try{const v=localStorage.getItem('nu_tsel');if(v!=null)cur=v==='mine'?'mine':+v}catch(e){}
+    if(cur==='mine'&&!myText())cur=0;
+    const box=el('div','wsets');st.append(box);const go=el('button','bigbtn green','БАСТАУ 🚀');st.append(go);
+    const save=()=>{try{localStorage.setItem('nu_tsel',cur)}catch(e){}};
+    const draw=()=>{box.innerHTML='';TEXTS1.forEach((T,i)=>{const b=el('button','wset'+(cur===i?' on':''),`${i+1}. ${T.t}<small>${T.b.split(/\s+/).length} сөз</small>`);b.onclick=()=>{cur=i;save();draw()};box.append(b)});
+      const m=myText();const b=el('button','wset'+(cur==='mine'?' on':''),`✏️ Менің мәтінім<small>${m?m.t:'бос — жаз'}</small>`);
+      b.onclick=()=>{if(!m||cur==='mine')return editText(()=>{cur='mine';save();draw()});cur='mine';save();draw()};box.append(b);
+      if(cur==='mine'&&m){const e=el('button','tbtn','✏️ Мәтінді өзгерту');e.onclick=()=>editText(draw);box.append(e)}};
+    draw();
+    go.onclick=()=>{const T=cur==='mine'?myText():TEXTS1[cur];if(!T)return editText(()=>{cur='mine';save();draw()});st.innerHTML='';
+      const tr=el('div','row'),tm=el('div','timer','<i></i>'),bar=tm.firstChild,clk=el('div','sclock','60');bar.style.transition='width .2s linear';
+      tr.append(tm,clk);st.append(tr,el('div','rtext',`<h3></h3><div></div>`));st.querySelector('.rtext h3').textContent=T.t;st.querySelector('.rtext div').textContent=T.b;
+      const fin=el('button','bigbtn red','ОҚЫП БОЛДЫМ! ✅');st.append(fin);
+      const t0=performance.now();let over=false,iv;
+      const stop=m=>{if(over)return;over=true;clearInterval(iv);done(m)};
+      fin.onclick=()=>stop(`Сен мәтінді ${Math.round((performance.now()-t0)/1000)} секундта оқыдың!`);
+      iv=setInterval(()=>{if(!alive())return clearInterval(iv);const left=Math.max(0,60-(performance.now()-t0)/1000);bar.style.width=(left/60*100)+'%';clk.textContent=Math.ceil(left);clk.classList.toggle('warn',left<=10);if(left<=0)stop('Уақыт бітті! ⏰')},200)};
   }},
 { id:'minwords', grade:1, title:'1 минутта оқы: сөздер', icon:'📗', bg:'#c8e6c9', sub:'Оқыған сөзіңді бас — жасыл болады', noProgress:true,
   make:()=>[0],
