@@ -628,7 +628,7 @@ sortGame({ id:'hardsoft', grade:2, title:'Жуан ба, жіңішке ме?', 
     const draw=()=>{box.innerHTML='';TEXTS1.forEach((T,i)=>{const b=el('button','wset'+(cur===i?' on':''),`${i+1}. ${T.t}<small>${T.b.split(/\s+/).length} сөз</small>`);b.onclick=()=>{cur=i;save();draw()};box.append(b)});
       const m=myText();const b=el('button','wset'+(cur==='mine'?' on':''),`✏️ Менің мәтінім<small>${m?m.t:'бос — жаз'}</small>`);
       b.onclick=()=>{if(!m||cur==='mine')return editText(()=>{cur='mine';save();draw()});cur='mine';save();draw()};box.append(b);
-      if(cur==='mine'&&m){const e=el('button','tbtn','✏️ Мәтінді өзгерту');e.onclick=()=>editText(draw);box.append(e)}};
+      const e=el('button','tbtn',m?'✏️ Мәтінді өзгерту':'➕ Мәтін қосу');e.onclick=()=>editText(()=>{cur='mine';save();draw()});box.append(e)};
     draw();
     go.onclick=()=>{const T=cur==='mine'?myText():TEXTS1[cur];if(!T)return editText(()=>{cur='mine';save();draw()});st.innerHTML='';
       const tr=el('div','row'),tm=el('div','timer','<i></i>'),bar=tm.firstChild,clk=el('div','sclock','60');bar.style.transition='width .2s linear';
