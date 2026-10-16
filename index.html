@@ -580,9 +580,15 @@ const GAMES=[
   }},
 { id:'first', grade:1, title:'Алғашқы дыбыс', icon:'🔠', bg:'#ffccbc', sub:'Сөзге жетпейтін әріптерді тап',
   make:()=>{const short=Object.keys(EMO).filter(w=>w.length<=4&&!/[ИЮЯЁ]/.test(w)),long=Object.keys(EMO).filter(w=>w.length>=5&&!/[ИЮЯЁ]/.test(w));
-    return [...pick(short,3),...pick(long,7)].map(w=>{const n=w.length,L=n>=5&&Math.random()<.5?2:1,i=Math.random()<.4?0:rnd(1,n-L);return{w,i,L}})},
-  render(t,st,done){const {w,i,L}=t,gap=[...Array(L)].map((_,k)=>i+k);
-    st.append(el('div','task-title',i===0?'Сөз қай әріптен басталады?':'Сөзге қай әріп жетпейді?'));
+    const gaps=w=>{const n=w.length;if(n<=4)return[rnd(0,n-1)];
+      for(let t=0;t<50;t++){const g=new Set(),i=rnd(0,n-2);g.add(i);g.add(i+1);
+        const extra=n>=7?2:1;let ok=true;
+        for(let e=0;e<extra;e++){const free=[...Array(n).keys()].filter(k=>!g.has(k)&&!g.has(k-1)&&!g.has(k+1));if(!free.length){ok=false;break}g.add(free[rnd(0,free.length-1)])}
+        if(ok)return[...g].sort((x,y)=>x-y)}
+      return[0,1]};
+    return [...pick(short,3),...pick(long,7)].map(w=>({w,gap:gaps(w)}))},
+  render(t,st,done){const {w,gap}=t;
+    st.append(el('div','task-title',gap.length===1&&gap[0]===0?'Сөз қай әріптен басталады?':gap.length===1?'Сөзге қай әріп жетпейді?':'Сөзге жетпейтін әріптерді тап'));
     st.append(el('div','pic',EMO[w]));
     const fw=el('div','firstw'),bl=[];
     [...w].forEach((c,k)=>{if(gap.includes(k)){const b=el('span','blank drop','');b._k=k;bl.push(b);fw.append(b)}else fw.append(el('span','',c))});st.append(fw);
