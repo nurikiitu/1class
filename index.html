@@ -281,7 +281,7 @@ button{font-family:inherit;cursor:pointer;border:none;touch-action:manipulation;
 <input id="gc" autocomplete="off" spellcheck="false" placeholder="КОД"><button class="tbtn gbtn">Кіру ➜</button><div class="gerr" id="ge"></div></form></div>
 <script>
 (function(){const H=['e25a0ef24b9344b2f829b1683047ec1010d0b20a2f3efe6f45919eb67a7e0752', '85ae0e2ccf6e2a438d452fc423aec4c28caac0665862c0ceaf2845ef8ceb8c95'];
-const TMP={'e6668a4260ee2b63a5b8ddc526492f653e79e9591501d07c10e0e6afad02188e':1792141004899};for(const k in TMP)if(Date.now()<TMP[k])H.push(k);
+const TMP={'e6668a4260ee2b63a5b8ddc526492f653e79e9591501d07c10e0e6afad02188e':1792141004899,'4e9ba705643cb6e2a9029074bd1a6881336e8972bc26550b1bb55ba5fd1889bf':1792142643392};for(const k in TMP)if(Date.now()<TMP[k])H.push(k);
 const sha=async s=>{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('class1:'+s.trim().toUpperCase()));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')};
 const g=document.getElementById('gate'),inp=document.getElementById('gc'),er=document.getElementById('ge');
 async function tryC(c){const h=await sha(c);if(H.includes(h)){try{localStorage.setItem('c1_ok',h)}catch(e){}g.style.display='none';return}er.textContent='Код қате. Қайта тексеріңіз.'}
