@@ -179,7 +179,7 @@ button{font-family:inherit;cursor:pointer;border:none;touch-action:manipulation;
 .circ.next{box-shadow:0 0 0 7px rgba(253,216,53,.8)}
 .cbtn{width:150px;height:150px;border-radius:50%;border:8px solid #fff;box-shadow:0 8px 0 rgba(0,0,0,.25)}
 .cbtn:active{transform:translateY(6px);box-shadow:0 2px 0 rgba(0,0,0,.25)}
-.cbtn.r{background:var(--red)}.cbtn.b{background:var(--blue)}
+.cbtn.picked{box-shadow:0 0 0 10px #fdd835}.circ.drop{cursor:pointer}.cbtn.r{background:var(--red)}.cbtn.b{background:var(--blue)}
 .legend{color:var(--ink);background:#fff;padding:10px 26px;border-radius:18px;font-size:28px;font-weight:900;display:flex;gap:40px}
 .legend span{display:flex;align-items:center;gap:10px}
 .legend i{width:30px;height:30px;border-radius:50%;display:inline-block;border:3px solid #fff}
@@ -377,13 +377,15 @@ function confetti(){setTimeout(()=>{if(CF===my)stopConfetti()},4500);const my=++
   if(my!==CF)return;if(++t<260)requestAnimationFrame(f);else x.clearRect(0,0,c.width,c.height)})()}
 
 /* ---------- data ---------- */
-const EMO={'АЛМА':'🍎','БАЛЫҚ':'🐟','ҚОЯН':'🐰','МЫСЫҚ':'🐱','КІТАП':'📖','ҚАЛАМ':'✏️','ТҮЛКІ':'🦊','ДОП':'⚽','КЕМЕ':'⛵','ҰШАҚ':'✈️','БАҚА':'🐸','ЛИМОН':'🍋','ЕСІК':'🚪','ТОРТ':'🎂','НАН':'🍞','ШАР':'🎈','ЖЫЛАН':'🐍','САҒАТ':'⏰','ИТ':'🐶','АЮ':'🐻','ГҮЛ':'🌸','КҮН':'☀️','АЙ':'🌙','ҮЙ':'🏠','ПІЛ':'🐘','ЖҰЛДЫЗ':'⭐','ӨРМЕКШІ':'🕷️','ОРЫНДЫҚ':'🪑','ЕШКІ':'🐐','СИЫР':'🐄','ҚҰС':'🐦','АРЫСТАН':'🦁','ҚАРБЫЗ':'🍉','ҚАР':'❄️','ШАНА':'🛷','АЙНА':'🪞','ҚАУЫН':'🍈','ЖАҢБЫР':'🌧️','АУА':'🌬️','БҰЛТ':'☁️','ТЫШҚАН':'🐭','АҒАШ':'🌳','СӘБІЗ':'🥕'};
+const EMO={'ТАУЫҚ':'🐔','КӨБЕЛЕК':'🦋','БАЛАПАН':'🐥','ҚУЫРШАҚ':'🪆','АЛМА':'🍎','БАЛЫҚ':'🐟','ҚОЯН':'🐰','МЫСЫҚ':'🐱','КІТАП':'📖','ҚАЛАМ':'✏️','ТҮЛКІ':'🦊','ДОП':'⚽','КЕМЕ':'⛵','ҰШАҚ':'✈️','БАҚА':'🐸','ЛИМОН':'🍋','ЕСІК':'🚪','ТОРТ':'🎂','НАН':'🍞','ШАР':'🎈','ЖЫЛАН':'🐍','САҒАТ':'⏰','ИТ':'🐶','АЮ':'🐻','ГҮЛ':'🌸','КҮН':'☀️','АЙ':'🌙','ҮЙ':'🏠','ПІЛ':'🐘','ЖҰЛДЫЗ':'⭐','ӨРМЕКШІ':'🕷️','ОРЫНДЫҚ':'🪑','ЕШКІ':'🐐','СИЫР':'🐄','ҚҰС':'🐦','АРЫСТАН':'🦁','ҚАРБЫЗ':'🍉','ҚАР':'❄️','ШАНА':'🛷','АЙНА':'🪞','ҚАУЫН':'🍈','ЖАҢБЫР':'🌧️','АУА':'🌬️','БҰЛТ':'☁️','ТЫШҚАН':'🐭','АҒАШ':'🌳','СӘБІЗ':'🥕'};
 const BUILD_MAIN=['ҚАР','ШАНА','ЕСІК','ЕШКІ','АЙНА','АЛМА','ҚАУЫН','ЖАҢБЫР','АУА','БҰЛТ'];
+const BUILD_LONG=['АРЫСТАН','ҚАРБЫЗ','ТЫШҚАН','ЖҰЛДЫЗ','ОРЫНДЫҚ','ӨРМЕКШІ','КӨБЕЛЕК','БАЛАПАН','ҚУЫРШАҚ','ТАУЫҚ','ЖЫЛАН','САҒАТ','СӘБІЗ'];
 const BUILD_EXTRA=['ҚОЯН','БАЛЫҚ','МЫСЫҚ','КІТАП','ҚАЛАМ','ТҮЛКІ','КЕМЕ','ҰШАҚ','БАҚА','ЛИМОН','ТОРТ','ЖЫЛАН','САҒАТ','ТЫШҚАН','АҒАШ','СӘБІЗ','КҮН','ДОП'];
 const LETTERS='АӘБГҒДЕЖЗИКҚЛМНОӨПРСТҰҮШЫІ'.split('');
 const VOWELS='АӘЕОӨҰҮЫІЭ';
 /* У: сөз басында немесе дауыссыздан кейін — дауысты; дауыстыдан кейін — дауыссыз */
 const isVowel=(w,i)=>w[i]==='У'?(i===0||!VOWELS.includes(w[i-1])):VOWELS.includes(w[i]);
+const SCHEME2=['ҚАРБЫЗ','АРЫСТАН','ОРЫНДЫҚ','ТЫШҚАН','ЖҰЛДЫЗ','БАЛАПАН','ҚУЫРШАҚ','ҚАРЛЫҒАШ','ТОҒЫЗ','МЕКТЕП','ДӘПТЕР','ТЕРЕЗЕ','КӨБЕЛЕК','БАУЫРСАҚ','ДАУЫС','СУРЕТ','ҚАЛАМСАП','ҚЫЗАНАҚ','ТАУЫҚ','ҚАУЫЗ','БАҚША','ОҚУШЫ'];
 const SCHEME=['ЛАҚ','ҚАЛА','АУЛА','АЗЫҚ','ҚЫЗЫҚ','ТАУЫҚ','ҚЫЗ','ҚЫЗАНАҚ','ТАРАЗ','АУЫЗ','СУЫҚ','СУЛЫ','ҚАУЫЗ'];
 const READ_WORDS=['ана','ата','апа','аға','әке','ол','сол','бал','нан','ай','үй','қар','тас','ит','ат','бала','қала','дала','кеме','күн','гүл','көл','бақ','тау','су','қаз','оқ','доп','сал','бас','көз','қол','аяқ','мұз','жол','сөз','дос','бір','екі','үш','тұз','ет','сүт','шай','бұл','мен','сен','қасық','балық','қалам','кітап','мектеп','алма','ағаш','есік','бақа','қоян','мысық','терезе','орындық'];
 const SENTENCES=['Ол – қала.','Бұл – үй.','Мысық сүт ішті.','Күн жылы.','Дала кең.','Қар жауды.','Бала доп ойнады.','Апам нан пісірді.','Айгүл кітап оқыды.','Алма қызыл.','Құс ұшты.','Ит үреді.','Көлде балық бар.','Ағаш биік.','Асан – оқушы.','Біз мектепке барамыз.','Атам бақта жүр.','Қоян сәбіз жеді.'];
@@ -469,7 +471,7 @@ const GAMES=[
     st.append(tiles);st.append(el('div','howto','👆 Ұстап, орнына апар немесе басып таңда'));
   }},
 { id:'build', grade:1, title:'Сөз құрастыр', icon:'🔤', bg:'#d1c4e9', sub:'Әріптерден сөз құра',
-  make:()=>shuffle([...BUILD_MAIN,...pick(BUILD_EXTRA,5)]),
+  make:()=>[...shuffle(BUILD_MAIN),...pick(BUILD_LONG,5)],
   render(w,st,done){
     st.append(el('div','task-title','Суретке қарап, сөзді құра'));
     st.append(el('div','pic',EMO[w]));
@@ -477,13 +479,13 @@ const GAMES=[
     const filled=[...w].map(()=>false),first=()=>filled.indexOf(false);
     const mark=()=>ss.forEach((x,i)=>x.classList.toggle('next',i===first()));mark();
     const fill=(i,L,b)=>{beep('tap');filled[i]=true;ss[i].textContent=L;ss[i].className='slot filled';popIn(ss[i]);b.classList.add('used');mark();if(first()<0)done()};
-    let order=shuffle([...w]);if(w.length>1)for(let g=0;g<20&&order.join('')===w;g++)order=shuffle([...w]);
+    const dec=pick(LETTERS.filter(x=>!w.includes(x)),w.length<=3?2:3);let order=shuffle([...w,...dec]);
     const tiles=el('div','tiles');
     order.forEach(L=>{const b=el('button','tile',L);
       dragTile(b,()=>{const i=first();L===w[i]?fill(i,L,b):wrong(b)},
         t=>{const i=ss.indexOf(t);if(i<0||filled[i])return;L===w[i]?fill(i,L,b):wrong(b)});
       tiles.append(b)});
-    st.append(tiles);st.append(el('div','howto','👆 Ұстап, орнына апар немесе басып таңда'));
+    st.append(tiles);st.append(el('div','howto','👆 Артық әріптер бар! Ұстап, орнына апар немесе басып таңда'));
   }},
 { id:'pyramid', grade:2, title:'Математикалық пирамида', icon:'🔺', bg:'#c8e6c9', sub:'Бос дөңгелектерді толтыр',
   make(){const out=[];while(out.length<N_TASKS){const b=[rnd(10,24),rnd(10,24),rnd(10,24)],m=[b[0]+b[1],b[1]+b[2]],vals=[m[0]+m[1],m[0],m[1],b[0],b[1],b[2]];
@@ -532,7 +534,7 @@ const GAMES=[
       iv=setInterval(()=>{if(!alive())return clearInterval(iv);const left=Math.max(0,60-(performance.now()-t0)/1000);bar.style.width=(left/60*100)+'%';clk.textContent=Math.ceil(left);if(left<=0)stop('Уақыт бітті! ⏰')},200)};
   }},
 { id:'scheme', grade:1, title:'Сөздің сызбасы', icon:'🔴', bg:'#f8bbd0', sub:'Дауысты – қызыл, дауыссыз – көк',
-  make:()=>pick(SCHEME,10),
+  make:()=>[...pick(SCHEME,3),...pick(SCHEME2,7)],
   render(w,st,done){
     st.append(el('div','task-title',`«${w}» сөзінің сызбасын жаса`));
     const box=el('div','scheme'),lt=el('div','lt'),sc=el('div','sc');
@@ -540,15 +542,16 @@ const GAMES=[
     box.append(lt,sc);st.append(box);
     st.append(el('div','legend','<span><i style="background:#e53935"></i>дауысты</span><span><i style="background:#1e88e5"></i>дауыссыз</span>'));
     const filled=[...w].map(()=>false),first=()=>filled.indexOf(false);
-    const mark=()=>cs.forEach((x,i)=>x.classList.toggle('next',i===first()));mark();
     const need=i=>isVowel(w,i)?'r':'b';
-    const fill=(i,c)=>{beep('tap');filled[i]=true;cs[i].className='circ '+c;popIn(cs[i]);mark();if(first()<0)done()};
-    const r=el('div','row');
-    ['r','b'].forEach(c=>{const b=el('button','cbtn '+c);
-      dragTile(b,()=>{const i=first();c===need(i)?fill(i,c):wrong(b)},
-        t=>{const i=cs.indexOf(t);if(i<0||filled[i])return;c===need(i)?fill(i,c):wrong(b)});
+    const fill=(i,c)=>{beep('tap');filled[i]=true;cs[i].className='circ '+c;popIn(cs[i]);if(first()<0)done()};
+    const r=el('div','row');let sel=null;const btns={};
+    const tryFill=(i,c)=>{if(filled[i])return;c===need(i)?fill(i,c):wrong(cs[i])};
+    ['r','b'].forEach(c=>{const b=el('button','cbtn '+c);btns[c]=b;
+      dragTile(b,()=>{Object.values(btns).forEach(x=>x.classList.remove('picked'));sel=c;b.classList.add('picked')},
+        t=>{const i=cs.indexOf(t);if(i>=0)tryFill(i,c)});
       r.append(b)});
-    st.append(r);st.append(el('div','howto','👆 Ұстап, орнына апар немесе басып таңда'));
+    cs.forEach((x,i)=>x.addEventListener('click',()=>{if(sel)tryFill(i,sel)}));
+    st.append(r);st.append(el('div','howto','👆 Түсті таңда да, керек дөңгелекті бас (кез келген ретпен)'));
   }},
 { id:'count', grade:1, title:'Санап шық', icon:'🍎', bg:'#dcedc8', sub:'Заттарды сана',
   make:()=>pick([1,2,3,4,5,6,7,8,9,10],N_TASKS).map(n=>({n,o:OBJ[rnd(0,OBJ.length-1)]})),
