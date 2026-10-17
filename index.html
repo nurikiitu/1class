@@ -287,7 +287,7 @@ button{font-family:inherit;cursor:pointer;border:none;touch-action:manipulation;
 (function(){const t=document.getElementById('tech');const chk=()=>fetch('status.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{if(!j)return;t.style.display=j.off?'flex':'none';if(j.off&&j.msg)t.querySelector('p').innerHTML=j.msg}).catch(()=>{});chk();setInterval(chk,30000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)chk()})})();</script>
 <div id="gate"><form class="gbox" id="gf"><div style="font-size:72px">🧠</div><h2>neuroUstaz · 1-сынып</h2><p>Кіру коды</p>
 <input id="gc" autocomplete="off" spellcheck="false" placeholder="КОД"><button class="tbtn gbtn">Кіру ➜</button><div class="gerr" id="ge"></div></form></div>
-<script>
+<script>try{localStorage.removeItem('c1_ok')}catch(e){}
 (function(){/* код → иесі, мерзімі (сол күннің соңына дейін) */
 const C={'2394b74976a4bfc00ae224f68662fc31f8638c16a70a5b37fbab2b95c14c0f5d':{n:'Кәрім Аружан',u:'',k:'ARUZHAN6426'},'d45040031bba2d37da2a2cf9e3bf86b576a73bc80d0b28f2c022d6dbe1c45665':{n:'Уақытша (6 сағат)',u:'',k:'499941',e:1792258786061,x:1},'ee063fc113f404362de1455eeb08ec7387a6910f59c46904e9c62e566f3e0f86':{n:'Айдана Усенқызы',u:'',k:'AIDANA5821'},'6bab1a131c5e3a6a717eedd89a047a8246bcf44ec1d0777a519d1a0fd0be4e78':{n:'Гулара Ибрахимовна',u:'',k:'GULARA2298'},'e12b0001262140723df972c0a3a46d1544d51d8c834839c74c5a5a4aa94dd5dc':{n:'Назерке Мұқтарқызы',u:'',k:'NAZERKE4381'},'a1e19952369e6bbf9042d8a65ede78da12bddf6dee95db9e413c656beba169bf':{n:'Айгерім',u:'',k:'AIGERIM9988'},'59f4d6946c032738b0f3faabbac3d430eb9bd539d55df9353ff5af1a6d2ec365':{n:'Индира Сабитқызы',u:'',k:'INDIRA8465'},'e25a0ef24b9344b2f829b1683047ec1010d0b20a2f3efe6f45919eb67a7e0752':{n:'1-сынып (NEURO-4456)',u:'',k:'NEURO-4456'},'85ae0e2ccf6e2a438d452fc423aec4c28caac0665862c0ceaf2845ef8ceb8c95':{n:'1-сынып (NEURO-4457)',u:'',k:'NEURO-4457'}};
 const PHONE='8 747 733 95 73';
@@ -378,17 +378,17 @@ function enter(h,how){const c=C[h];const when=NOW();er.textContent='⏳ Текс
   CUR={code,fp,x:!!c.x};er.textContent='';g.style.display='none';if(c.e)return;const b=document.createElement('div');b.id='lic';b.innerHTML=`🔒 Лицензия: <b>${c.n}</b>${c.u?` · ${fmt(c.u)} дейін`:''}`;document.body.append(b)})}
 /* ашық тұрған құрылғыларды да тексеру: код бұғатталса немесе құрылғы тізімнен алынса — жабылады */
 setInterval(async()=>{if(!CUR||CUR.x||g.style.display!=='none')return;try{const D=await fsGet(CUR.code);if(D.includes(BLK)){g.style.display='';const l=document.getElementById('lic');l&&l.remove();blockedMsg(CUR.fp);CUR=null}}catch(e){}},45000);
-function expired(){gcEv('mezgil-bitti','Мерзімі біткен кодпен кіру әрекеті');er.innerHTML=`Кодтың мерзімі бітті.<br>Ұзарту үшін хабарласыңыз: <b>${PHONE}</b>`;try{localStorage.removeItem('c1_ok')}catch(e){}}
-async function tryC(c){const h=await sha(c);const v=valid(h);if(v===1){try{localStorage.setItem('c1_ok',h)}catch(e){}return enter(h,'кірді')}if(v===-1)return expired();er.textContent='Код қате. Қайта тексеріңіз.'}
+function expired(){gcEv('mezgil-bitti','Мерзімі біткен кодпен кіру әрекеті');er.innerHTML=`Кодтың мерзімі бітті.<br>Ұзарту үшін хабарласыңыз: <b>${PHONE}</b>`;try{sessionStorage.removeItem('c1_ok')}catch(e){}}
+async function tryC(c){const h=await sha(c);const v=valid(h);if(v===1){try{sessionStorage.setItem('c1_ok',h)}catch(e){}return enter(h,'кірді')}if(v===-1)return expired();er.textContent='Код қате. Қайта тексеріңіз.'}
 document.getElementById('gf').onsubmit=e=>{e.preventDefault();if(inp.value.trim())tryC(inp.value)};
-let ok=null;try{ok=localStorage.getItem('c1_ok')}catch(e){}
+let ok=null;try{ok=sessionStorage.getItem('c1_ok')}catch(e){}
 if(/tgtest/.test(location.search))fetch('https://api.telegram.org/bot'+TG+'/sendMessage?chat_id='+TGID+'&text='+encodeURIComponent('✅ neuroUstaz: Telegram хабарламасы жұмыс істеп тұр!'),{mode:'no-cors'});
 if(location.search)history.replaceState(null,'',location.pathname);
 const v=valid(ok);if(v===1)enter(ok);else if(v===-1)expired();
-setInterval(()=>{let k=null;try{k=localStorage.getItem('c1_ok')}catch(e){}if(k&&valid(k)===-1){g.style.display='';const l=document.getElementById('lic');l&&l.remove();expired()}},60000);
+setInterval(()=>{let k=null;try{k=sessionStorage.getItem('c1_ok')}catch(e){}if(k&&valid(k)===-1){g.style.display='';const l=document.getElementById('lic');l&&l.remove();expired()}},60000);
 document.addEventListener('contextmenu',e=>e.preventDefault());
 document.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(e.key==='F12'||(e.ctrlKey&&(k==='u'||k==='s'||k==='p'))||(e.ctrlKey&&e.shiftKey&&(k==='i'||k==='j'||k==='c'))){e.preventDefault()}});
-window.logout1=()=>{try{localStorage.removeItem('c1_ok')}catch(e){}location.href=location.pathname};})();
+window.logout1=()=>{try{sessionStorage.removeItem('c1_ok')}catch(e){}location.href=location.pathname};})();
 </script>
 <section id="home" class="screen active">
   <div class="home-head">
